@@ -77,7 +77,6 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
               title: const Text('Lote'),
@@ -88,12 +87,6 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
               subtitle: Text(widget.lote.propietario ?? ''),
             ),
             const SizedBox(height: 20),
-            // TextButton(
-            //     onPressed: () {
-            //       Navigator.of(context).push(
-            //           MaterialPageRoute(builder: (_) => const LocationPage()));
-            //     },
-            //     child: const Text('Ver ubicacion')),
           ],
         ),
       ),

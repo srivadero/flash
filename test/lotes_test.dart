@@ -1,5 +1,6 @@
 import 'package:flash/lote/repository.dart';
 import 'package:flash/model/entities.dart';
+import 'package:flash/obra/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
@@ -33,5 +34,35 @@ Future<void> main() async {
     await repo.delete(1);
     lote = await repo.get(1);
     expect(lote, isNull);
+  });
+
+  test('Can add, get and remove an Obra', () async {
+    final isar = await Isar.open([LoteSchema, ObraSchema], name: 'test-db');
+
+    final container = ProviderContainer(
+      overrides: [databaseProvider.overrideWithValue(isar)],
+    );
+    addTearDown(container.dispose);
+
+    final db = container.read(databaseProvider);
+    await db.writeTxn(() => db.clear());
+
+    final repo = container.read(obraRepository);
+    late Obra? obra;
+
+    // save
+    obra = Obra()..lote.value = Lote(nombre: 'LOTE1');
+    await repo.save(obra);
+    expect(obra.id, 1);
+
+    // read
+    obra = await repo.get(1);
+    expect(obra, isNotNull);
+    expect(obra!.lote.value, isNotNull);
+
+    // delete
+    await repo.delete(1);
+    obra = await repo.get(1);
+    expect(obra, isNull);
   });
 }
