@@ -97,6 +97,7 @@ class _LoteListPageState extends ConsumerState<LoteListPage> {
                 return ListTile(
                   title: Text(lote.nombre),
                   subtitle: Text(lote.propietario ?? ''),
+                  trailing: Text(lote.obras.length.toString()),
                   onTap: () async {
                     final result = await Navigator.of(context).push<Lote?>(
                         MaterialPageRoute(

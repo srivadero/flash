@@ -9,6 +9,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final isar = await getDatabaseProvider(directory: 'Databases');
 
+  // await isar.writeTxn(() => isar.clear());
+
   runApp(ProviderScope(
     overrides: [
       databaseProvider.overrideWithValue(isar),
@@ -24,9 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Flash',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: const MyHomePage(),
     );
@@ -65,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             title: const Text('Preferencias'),
           ),
+          body: const Center(child: Text('No implementado')),
         )),
   ];
 

@@ -37,36 +37,27 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
               final result = await showDialog<bool?>(
                   context: context,
                   builder: (context) => AlertDialog(
-                        content: const Text('No implementado'),
+                        title: const Text('Atencion'),
+                        content: const Text('Desea eliminar este elemento?'),
                         actions: [
                           TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Cerrar'),
-                          )
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                              child: const Text('Eliminar')),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              autofocus: true,
+                              child: const Text('Cancelar')),
                         ],
-                        // title: const Text('Atencion'),
-                        // content: const Text('Desea eliminar este elemento?'),
-                        // actions: [
-                        //   TextButton(
-                        //       onPressed: () {
-                        //         Navigator.of(context).pop(true);
-                        //       },
-                        //       child: const Text('Eliminar')),
-                        //   TextButton(
-                        //       onPressed: () {
-                        //         Navigator.of(context).pop(false);
-                        //       },
-                        //       autofocus: true,
-                        //       child: const Text('Cancelar')),
-                        // ],
                       ));
               if (result != null && result == true) {
                 await ref.read(loteRepository).delete(widget.lote.id!);
                 ref.invalidate(lotesProvider);
                 if (mounted) {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(widget.lote);
                 }
               }
             },

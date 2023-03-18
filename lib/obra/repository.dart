@@ -6,7 +6,7 @@ final obraRepository = Provider<ObraRepository>((ref) {
   return ObraRepository(ref.read(databaseProvider));
 });
 
-final obrasProvider = FutureProvider<List<Obra>>((ref) async {
+final obrasProvider = FutureProvider.autoDispose<List<Obra>>((ref) async {
   return ref.read(obraRepository).getAll();
 });
 
