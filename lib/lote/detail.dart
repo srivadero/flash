@@ -33,7 +33,6 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
           ),
           IconButton(
             onPressed: () async {
-              // TODO Must remove all obras too
               final result = await showDialog<bool?>(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -68,6 +67,7 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
               title: const Text('Lote'),
@@ -77,7 +77,13 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
               title: const Text('Propietario'),
               subtitle: Text(widget.lote.propietario ?? ''),
             ),
-            const SizedBox(height: 20),
+            // const SizedBox(height: 20),
+            ListTile(
+              title: const Text('Obras'),
+              subtitle: widget.lote.obras.isEmpty
+                  ? const Text('No tiene')
+                  : Text(widget.lote.obras.length.toString()),
+            ),
           ],
         ),
       ),

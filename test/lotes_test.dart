@@ -88,6 +88,7 @@ Future<void> main() async {
     expect(lote.id, 1);
 
     final u = await db.obras.filter().lote((q) => q.idEqualTo(1)).findAll();
+    expect(u.length, 1);
 
     // load
     lote = null;
