@@ -30,7 +30,8 @@ enum AvanceObra {
   guesa('Obra gruesa', Colors.blue, 'Paredes, losas, tanques'),
   fina('Obra fina', Colors.yellow, 'Terminaciones finas, amoblamiento fijo'),
   remodelacion('Remodelacion', Colors.red,
-      'Vivienda habitada con trabajos pendientes, Ampliacion');
+      'Vivienda habitada con trabajos pendientes, Ampliacion'),
+  unasigned('No definida', Colors.grey, 'No definida');
 
   const AvanceObra(this.nombre, this.color, this.info);
   final String nombre;
