@@ -65,4 +65,37 @@ Future<void> main() async {
     obra = await repo.get(1);
     expect(obra, isNull);
   });
+
+  test('Can add, get and remove a lote with obras', () async {
+    final isar = await Isar.open([LoteSchema, ObraSchema], name: 'test-db');
+
+    final container = ProviderContainer(
+      overrides: [databaseProvider.overrideWithValue(isar)],
+    );
+    addTearDown(container.dispose);
+
+    final db = container.read(databaseProvider);
+    await db.writeTxn(() => db.clear());
+
+    final repo = container.read(loteRepository);
+    late Lote? lote;
+
+    // save
+    lote = Lote(nombre: '_');
+    lote.obras.add(Obra());
+
+    await repo.save(lote);
+    expect(lote.id, 1);
+
+    final u = await db.obras.filter().lote((q) => q.idEqualTo(1)).findAll();
+    expect(u.length, 1);
+
+    // load
+    lote = null;
+    lote = await repo.get(1);
+    await repo.delete(1);
+
+    final uv = await db.obras.filter().lote((q) => q.idEqualTo(1)).findAll();
+    expect(uv.length, 0);
+  });
 }
