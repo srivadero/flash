@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flash/lote/detail.dart';
 import 'package:flash/lote/form.dart';
 import 'package:flash/lote/repository.dart';
 import 'package:flash/lote/search.dart';
 import 'package:flash/model/entities.dart';
+import 'package:flash/obra/form.dart';
+import 'package:flash/obra/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -97,7 +101,21 @@ class _LoteListPageState extends ConsumerState<LoteListPage> {
                 return ListTile(
                   title: Text(lote.nombre),
                   subtitle: Text(lote.propietario ?? ''),
-                  // trailing: Text(lote.obras.length.toString()),
+                  trailing: lote.obras.isEmpty
+                      ? IconButton(
+                          onPressed: () async {
+                            log('--- DEVELOPMENT ONLY: Create obra from Icon');
+                            final obra = Obra()
+                              ..lote.value = lote
+                              ..avance = AvanceObra.unasigned;
+                            ref.read(obraRepository).save(obra);
+                            ref.invalidate(lotesProvider);
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (_) => ObraFormPage(obra: obra)));
+                          },
+                          icon: const Icon(Icons.home),
+                        )
+                      : Text(lote.obras.length.toString()),
                   onTap: () async {
                     final result = await Navigator.of(context).push<Lote?>(
                         MaterialPageRoute(

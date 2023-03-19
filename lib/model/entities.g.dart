@@ -813,12 +813,14 @@ const _ObraavanceEnumValueMap = {
   r'guesa': r'guesa',
   r'fina': r'fina',
   r'remodelacion': r'remodelacion',
+  r'unasigned': r'unasigned',
 };
 const _ObraavanceValueEnumMap = {
   r'inicio': AvanceObra.inicio,
   r'guesa': AvanceObra.guesa,
   r'fina': AvanceObra.fina,
   r'remodelacion': AvanceObra.remodelacion,
+  r'unasigned': AvanceObra.unasigned,
 };
 
 Id _obraGetId(Obra object) {
