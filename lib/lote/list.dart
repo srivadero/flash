@@ -101,21 +101,19 @@ class _LoteListPageState extends ConsumerState<LoteListPage> {
                 return ListTile(
                   title: Text(lote.nombre),
                   subtitle: Text(lote.propietario ?? ''),
-                  trailing: lote.obras.isEmpty
-                      ? IconButton(
-                          onPressed: () async {
-                            log('--- DEVELOPMENT ONLY: Create obra from Icon');
-                            final obra = Obra()
-                              ..lote.value = lote
-                              ..avance = AvanceObra.unasigned;
-                            ref.read(obraRepository).save(obra);
-                            ref.invalidate(lotesProvider);
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (_) => ObraFormPage(obra: obra)));
-                          },
-                          icon: const Icon(Icons.home),
-                        )
-                      : Text(lote.obras.length.toString()),
+                  // trailing: lote.obras.isEmpty
+                  //     ? IconButton(
+                  //         onPressed: () async {
+                  //           log('--- DEVELOPMENT ONLY: Create obra from Icon');
+                  //           final obra = Obra()
+                  //             ..lote.value = lote
+                  //             ..avance = AvanceObra.unasigned;
+                  //           ref.read(obraRepository).save(obra);
+                  //           ref.invalidate(lotesProvider);
+                  //         },
+                  //         icon: const Icon(Icons.home),
+                  //       )
+                  //     : Text(lote.obras.length.toString()),
                   onTap: () async {
                     final result = await Navigator.of(context).push<Lote?>(
                         MaterialPageRoute(
