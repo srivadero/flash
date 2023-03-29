@@ -25,7 +25,7 @@ class _ObraDetailPageState extends ConsumerState<ObraDetailPage> {
                   MaterialPageRoute(
                       builder: (_) => ObraFormPage(obra: widget.obra)));
               if (result != null) {
-                ref.invalidate(obrasProvider);
+                // ref.invalidate(obrasProvider);
                 setState(() {});
               }
             },
@@ -54,7 +54,7 @@ class _ObraDetailPageState extends ConsumerState<ObraDetailPage> {
                       ));
               if (result != null && result == true) {
                 await ref.read(obraRepository).delete(widget.obra.id!);
-                ref.invalidate(obrasProvider);
+                // ref.invalidate(obrasProvider);
                 if (mounted) {
                   Navigator.of(context).pop(widget.obra);
                 }

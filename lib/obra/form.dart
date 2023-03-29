@@ -1,5 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flash/lote/repository.dart';
+import 'package:flash/lote/controller.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flash/obra/repository.dart';
 import 'package:flutter/material.dart';
@@ -140,8 +140,10 @@ class _ObraFormPageState extends ConsumerState<ObraFormPage> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    await ref.read(obraRepository).save(obra);
-                    if (mounted) {
+                    // await
+                    ref.read(obraRepository).save(obra);
+                    // if (mounted)
+                    {
                       Navigator.of(context).pop(obra);
                     }
                   }

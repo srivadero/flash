@@ -1,12 +1,8 @@
-import 'dart:developer';
-
+import 'package:flash/lote/controller.dart';
 import 'package:flash/lote/detail.dart';
 import 'package:flash/lote/form.dart';
-import 'package:flash/lote/repository.dart';
 import 'package:flash/lote/search.dart';
 import 'package:flash/model/entities.dart';
-import 'package:flash/obra/form.dart';
-import 'package:flash/obra/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,12 +43,12 @@ class _LoteListPageState extends ConsumerState<LoteListPage> {
           ),
           IconButton(
             onPressed: () async {
-              final result = await Navigator.of(context).push<Lote?>(
-                  MaterialPageRoute(
-                      builder: (_) => LoteFormPage(lote: Lote(nombre: ''))));
-              if (result != null) {
-                ref.invalidate(lotesProvider);
-              }
+              // final result = await
+              Navigator.of(context).push<Lote?>(MaterialPageRoute(
+                  builder: (_) => LoteFormPage(lote: Lote(nombre: ''))));
+              // if (result != null) {
+              //   ref.invalidate(lotesProvider);
+              // }
             },
             icon: const Icon(Icons.add),
           ),
@@ -115,12 +111,12 @@ class _LoteListPageState extends ConsumerState<LoteListPage> {
                   //       )
                   //     : Text(lote.obras.length.toString()),
                   onTap: () async {
-                    final result = await Navigator.of(context).push<Lote?>(
-                        MaterialPageRoute(
-                            builder: (_) => LoteDetailPage(lote: lote)));
-                    if (result != null) {
-                      ref.invalidate(lotesProvider);
-                    }
+                    // final result = await
+                    Navigator.of(context).push<Lote?>(MaterialPageRoute(
+                        builder: (_) => LoteDetailPage(lote: lote)));
+                    // if (result != null) {
+                    //   ref.invalidate(lotesProvider);
+                    // }
                   },
                 );
               },
