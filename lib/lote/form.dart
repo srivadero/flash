@@ -70,8 +70,9 @@ class _LoteFormPageState extends ConsumerState<LoteFormPage> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    await ref.read(loteRepository).save(lote);
-                    if (mounted) {
+                    ref.read(loteRepository).save(lote);
+                    // if (mounted)
+                    {
                       Navigator.of(context).pop(lote);
                     }
                   }

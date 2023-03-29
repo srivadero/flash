@@ -1,7 +1,7 @@
 import 'package:flash/model/entities.dart';
+import 'package:flash/obra/controller.dart';
 import 'package:flash/obra/detail.dart';
 import 'package:flash/obra/form.dart';
-import 'package:flash/obra/repository.dart';
 import 'package:flash/obra/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,7 +47,7 @@ class _ObraListPageState extends ConsumerState<ObraListPage> {
                   MaterialPageRoute(
                       builder: (_) => ObraFormPage(obra: Obra())));
               if (value != null) {
-                ref.invalidate(obrasProvider);
+                // ref.invalidate(obrasProvider);
               }
             },
             icon: const Icon(Icons.add),
@@ -112,7 +112,7 @@ class _ObraListPageState extends ConsumerState<ObraListPage> {
                         MaterialPageRoute(
                             builder: (_) => ObraDetailPage(obra: obra)));
                     if (result != null) {
-                      ref.invalidate(obrasProvider);
+                      // ref.invalidate(obrasProvider);
                     }
                   },
                 );

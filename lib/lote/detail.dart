@@ -25,7 +25,7 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
                   MaterialPageRoute(
                       builder: (_) => LoteFormPage(lote: widget.lote)));
               if (result != null) {
-                ref.invalidate(lotesProvider);
+                // ref.invalidate(lotesProvider);
                 setState(() {});
               }
             },
@@ -54,7 +54,7 @@ class _LoteDetailPageState extends ConsumerState<LoteDetailPage> {
                       ));
               if (result != null && result == true) {
                 await ref.read(loteRepository).delete(widget.lote.id!);
-                ref.invalidate(lotesProvider);
+                // ref.invalidate(lotesProvider);
                 if (mounted) {
                   Navigator.of(context).pop(widget.lote);
                 }
