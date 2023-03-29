@@ -1,3 +1,4 @@
+import 'package:flash/model/database_provider.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';

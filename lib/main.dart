@@ -1,15 +1,12 @@
 import 'package:flash/database.dart';
 import 'package:flash/lote/list.dart';
-import 'package:flash/model/entities.dart';
+import 'package:flash/model/database_provider.dart';
 import 'package:flash/obra/list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final isar = await getDatabaseProvider(directory: 'Databases');
-
-  // await isar.writeTxn(() => isar.clear());
+  final isar = await IsarDatabase.create(directory: 'Databases');
 
   runApp(ProviderScope(
     overrides: [
