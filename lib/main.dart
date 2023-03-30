@@ -1,7 +1,7 @@
 import 'package:flash/database.dart';
-import 'package:flash/lote/list.dart';
+import 'package:flash/lote/ui/list.dart';
 import 'package:flash/model/database_provider.dart';
-import 'package:flash/obra/list.dart';
+import 'package:flash/obra/ui/list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Flash',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        // useMaterial3: true,
       ),
       home: const MyHomePage(),
     );

@@ -1,17 +1,30 @@
+import 'dart:developer';
+
 import 'package:flash/lote/repository.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-final loteRepositoryListener = StreamProvider<void>((ref) {
+enum LoteSortType {
+  nombre,
+  propietario,
+}
+
+final loteSortTypeProvider = StateProvider<LoteSortType>((ref) {
+  return LoteSortType.nombre;
+});
+
+final _loteRepositoryListener = StreamProvider<void>((ref) {
   final stream =
       ref.watch(loteRepository).db.lotes.watchLazy(fireImmediately: true);
   return stream;
 });
 
 final lotesProvider = StreamProvider((ref) {
-  ref.watch(loteRepositoryListener);
-  return ref.read(loteController).getAll(/*strQuery, kOrder*/);
+  final order = ref.watch(loteSortTypeProvider);
+  log('Order by: ${order.name}');
+  ref.watch(_loteRepositoryListener);
+  return ref.read(loteController).getAll(order: order /*strQuery*/);
 });
 
 final loteController =
@@ -33,8 +46,16 @@ class LoteController {
     return repository.get(id);
   }
 
-  Stream<List<Lote>> getAll() async* {
-    final a = await repository.db.lotes.where().findAll();
+  Stream<List<Lote>> getAll({LoteSortType order = LoteSortType.nombre}) async* {
+    late final List<Lote> a;
+    switch (order) {
+      case LoteSortType.nombre:
+        a = await repository.db.lotes.where().sortByNombre().findAll();
+        break;
+      case LoteSortType.propietario:
+        a = await repository.db.lotes.where().sortByPropietario().findAll();
+        break;
+    }
     yield a;
   }
 }

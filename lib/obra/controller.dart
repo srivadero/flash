@@ -3,15 +3,26 @@ import 'package:flash/obra/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-final obraRepositoryListener = StreamProvider<void>((ref) {
+enum ObraSortType {
+  lote,
+  propietario,
+}
+
+final obraSortTypeProvider = StateProvider<ObraSortType>(
+  (ref) => ObraSortType.lote,
+);
+
+final _obraRepositoryListener = StreamProvider<void>((ref) {
   final stream =
       ref.watch(obraRepository).db.obras.watchLazy(fireImmediately: true);
   return stream;
 });
 
 final obrasProvider = StreamProvider((ref) {
-  ref.watch(obraRepositoryListener);
-  return ref.read(obraController).getAll(/*strQuery, kOrder*/);
+  final order = ref.watch(obraSortTypeProvider);
+  ref.watch(_obraRepositoryListener);
+
+  return ref.read(obraController).getAll(order: order /*strQuery, kOrder*/);
 });
 
 final obraController =
@@ -33,8 +44,17 @@ class ObraController {
     return repository.get(id);
   }
 
-  Stream<List<Obra>> getAll() async* {
-    final a = await repository.db.obras.where().findAll();
+  Stream<List<Obra>> getAll({ObraSortType order = ObraSortType.lote}) async* {
+    late final List<Obra> a;
+    switch (order) {
+      // TODO Implement sortby
+      case ObraSortType.lote:
+        a = await repository.db.obras.where().findAll();
+        break;
+      case ObraSortType.propietario:
+        a = await repository.db.obras.where().findAll();
+        break;
+    }
     yield a;
   }
 }

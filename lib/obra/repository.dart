@@ -7,10 +7,6 @@ final obraRepository = Provider<ObraRepository>((ref) {
   return ObraRepository(ref.read(databaseProvider));
 });
 
-// final obrasProvider = FutureProvider.autoDispose<List<Obra>>((ref) async {
-//   return ref.read(obraRepository).getAll();
-// });
-
 class ObraRepository {
   late final Isar db;
 
@@ -31,8 +27,4 @@ class ObraRepository {
   Future<Obra?> get(int id) {
     return db.obras.get(id);
   }
-
-  // Future<List<Obra>> getAll() {
-  //   return db.obras.where().findAll();
-  // }
 }
