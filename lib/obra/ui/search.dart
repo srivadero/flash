@@ -5,12 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 class ObraSearchPage extends SearchDelegate<Obra?> {
-  // @override
-  // ThemeData appBarTheme(BuildContext context) {
-  //   final theme = Theme.of(context);
-  //   return theme;
-  // }
-
   ObraSearchPage() : super(searchFieldLabel: 'Buscar');
 
   @override

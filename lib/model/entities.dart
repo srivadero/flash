@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 part 'entities.g.dart';
@@ -38,5 +37,3 @@ enum AvanceObra {
   final Color color;
   final String info;
 }
-
-final databaseProvider = Provider<Isar>((ref) => throw UnimplementedError());
