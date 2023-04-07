@@ -32,8 +32,9 @@ class LoteRepository {
 
   Stream<void> get changeNotifierStream async* {
     final dbstream = db.lotes.watchLazy(fireImmediately: true);
-    await for (final _ in dbstream) {
-      yield null;
-    }
+    yield* dbstream.asBroadcastStream();
+    // await for (final _ in dbstream) {
+    //   yield null;
+    // }
   }
 }

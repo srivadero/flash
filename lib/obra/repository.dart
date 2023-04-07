@@ -30,8 +30,9 @@ class ObraRepository {
 
   Stream<void> get changeNotifierStream async* {
     final dbstream = db.obras.watchLazy(fireImmediately: true);
-    await for (final _ in dbstream) {
-      yield null;
-    }
+    yield* dbstream.asBroadcastStream();
+    // await for (final _ in dbstream) {
+    //   yield null;
+    // }
   }
 }

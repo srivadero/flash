@@ -12,15 +12,8 @@ final loteSortTypeProvider = StateProvider<LoteSortType>((ref) {
   return LoteSortType.nombre;
 });
 
-// final _loteRepositoryListener = StreamProvider<void>((ref) {
-//   final stream =
-//       ref.watch(loteRepository).db.lotes.watchLazy(fireImmediately: true);
-//   return stream;
-// });
-
 final lotesProvider = StreamProvider<List<Lote>>((ref) {
   final order = ref.watch(loteSortTypeProvider);
-  // ref.watch(_loteRepositoryListener);
   return ref.read(loteController).getData(sortBy: order /*strQuery*/);
 });
 
@@ -42,19 +35,6 @@ class LoteController {
   Future<Lote?> get(int id) async {
     return repository.get(id);
   }
-
-  // Stream<List<Lote>> getAll({LoteSortType order = LoteSortType.nombre}) async* {
-  //   late final List<Lote> a;
-  //   switch (order) {
-  //     case LoteSortType.nombre:
-  //       a = await repository.db.lotes.where().sortByNombre().findAll();
-  //       break;
-  //     case LoteSortType.propietario:
-  //       a = await repository.db.lotes.where().sortByPropietario().findAll();
-  //       break;
-  //   }
-  //   yield a;
-  // }
 
   Stream<List<Lote>> getData(
       {LoteSortType sortBy = LoteSortType.nombre}) async* {

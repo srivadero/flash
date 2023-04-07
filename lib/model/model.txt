@@ -1,0 +1,34 @@
+Persona
+    id
+    nombre
+
+Propietario
+    *lote
+    *persona
+
+Inquilino
+    *lote
+    *persona
+
+Responsable
+    *lote
+    *persona
+
+Lote
+    id
+    nombre
+    **propietarios
+    **inquilinos
+    **obras
+
+Obra
+    id
+    *lote
+    **responsables
+    avance
+    suspendida
+
+Ausencia
+    *lote
+    desde
+    hasta
