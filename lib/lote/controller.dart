@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flash/lote/repository.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,17 +12,16 @@ final loteSortTypeProvider = StateProvider<LoteSortType>((ref) {
   return LoteSortType.nombre;
 });
 
-final _loteRepositoryListener = StreamProvider<void>((ref) {
-  final stream =
-      ref.watch(loteRepository).db.lotes.watchLazy(fireImmediately: true);
-  return stream;
-});
+// final _loteRepositoryListener = StreamProvider<void>((ref) {
+//   final stream =
+//       ref.watch(loteRepository).db.lotes.watchLazy(fireImmediately: true);
+//   return stream;
+// });
 
-final lotesProvider = StreamProvider((ref) {
+final lotesProvider = StreamProvider<List<Lote>>((ref) {
   final order = ref.watch(loteSortTypeProvider);
-  log('Order by: ${order.name}');
-  ref.watch(_loteRepositoryListener);
-  return ref.read(loteController).getAll(order: order /*strQuery*/);
+  // ref.watch(_loteRepositoryListener);
+  return ref.read(loteController).getData(sortBy: order /*strQuery*/);
 });
 
 final loteController =
@@ -46,16 +43,38 @@ class LoteController {
     return repository.get(id);
   }
 
-  Stream<List<Lote>> getAll({LoteSortType order = LoteSortType.nombre}) async* {
-    late final List<Lote> a;
-    switch (order) {
-      case LoteSortType.nombre:
-        a = await repository.db.lotes.where().sortByNombre().findAll();
-        break;
-      case LoteSortType.propietario:
-        a = await repository.db.lotes.where().sortByPropietario().findAll();
-        break;
+  // Stream<List<Lote>> getAll({LoteSortType order = LoteSortType.nombre}) async* {
+  //   late final List<Lote> a;
+  //   switch (order) {
+  //     case LoteSortType.nombre:
+  //       a = await repository.db.lotes.where().sortByNombre().findAll();
+  //       break;
+  //     case LoteSortType.propietario:
+  //       a = await repository.db.lotes.where().sortByPropietario().findAll();
+  //       break;
+  //   }
+  //   yield a;
+  // }
+
+  Stream<List<Lote>> getData(
+      {LoteSortType sortBy = LoteSortType.nombre}) async* {
+    await for (final _ in repository.changeNotifierStream) {
+      switch (sortBy) {
+        case LoteSortType.propietario:
+          yield await getByPropietario();
+          break;
+        case LoteSortType.nombre:
+          yield await getByName();
+          break;
+      }
     }
-    yield a;
+  }
+
+  Future<List<Lote>> getByPropietario() async {
+    return repository.db.lotes.where().sortByPropietario().findAll();
+  }
+
+  Future<List<Lote>> getByName() async {
+    return repository.db.lotes.where().sortByNombre().findAll();
   }
 }

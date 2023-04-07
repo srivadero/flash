@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 final loteRepository = Provider<LoteRepository>(
-    (ref) => LoteRepository(ref.read(databaseProvider)));
+    (ref) => LoteRepository(ref.watch(databaseProvider)));
 
 class LoteRepository {
   late final Isar db;
@@ -28,5 +28,12 @@ class LoteRepository {
 
   Future<Lote?> get(int id) {
     return db.lotes.get(id);
+  }
+
+  Stream<void> get changeNotifierStream async* {
+    final dbstream = db.lotes.watchLazy(fireImmediately: true);
+    await for (final _ in dbstream) {
+      yield null;
+    }
   }
 }
