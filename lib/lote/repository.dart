@@ -1,10 +1,10 @@
-import 'package:flash/model/database_provider.dart';
+import 'package:flash/model/database.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 final loteRepository = Provider<LoteRepository>(
-    (ref) => LoteRepository(ref.read(databaseProvider)));
+    (ref) => LoteRepository(ref.watch(databaseProvider)));
 
 class LoteRepository {
   late final Isar db;
@@ -29,4 +29,7 @@ class LoteRepository {
   Future<Lote?> get(int id) {
     return db.lotes.get(id);
   }
+
+  Stream<void> get changeNotifierStream =>
+      db.lotes.watchLazy(fireImmediately: true);
 }

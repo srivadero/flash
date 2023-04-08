@@ -12,17 +12,13 @@ final obraSortTypeProvider = StateProvider<ObraSortType>(
   (ref) => ObraSortType.lote,
 );
 
-final _obraRepositoryListener = StreamProvider<void>((ref) {
-  final stream =
-      ref.watch(obraRepository).db.obras.watchLazy(fireImmediately: true);
-  return stream;
-});
+final astream =
+    StreamProvider<void>((ref) => ref.watch(obraController).getDataStream);
 
-final obrasProvider = StreamProvider((ref) {
+final obrasProvider = StreamProvider<List<Obra>>((ref) async* {
+  ref.watch(astream);
   final order = ref.watch(obraSortTypeProvider);
-  ref.watch(_obraRepositoryListener);
-
-  return ref.read(obraController).getAll(order: order /*strQuery, kOrder*/);
+  yield await ref.read(obraController).getObras(orderBy: order, query: '');
 });
 
 final obraController =
@@ -44,17 +40,32 @@ class ObraController {
     return repository.get(id);
   }
 
-  Stream<List<Obra>> getAll({ObraSortType order = ObraSortType.lote}) async* {
-    late final List<Obra> a;
-    switch (order) {
-      // TODO Implement sortby
+  Stream<void> get getDataStream {
+    return repository.changeNotifierStream;
+    // await for (final _ in repository.changeNotifierStream) {
+    //   yield null;
+    // }
+  }
+
+  Future<List<Obra>> getObras(
+      {ObraSortType orderBy = ObraSortType.lote, String query = ''}) async {
+    final result = await repository.db.obras.filter().lote((q) {
+      return q
+          .nombreContains(query, caseSensitive: false)
+          .or()
+          .propietarioContains(query, caseSensitive: false);
+    }).findAll();
+
+    switch (orderBy) {
       case ObraSortType.lote:
-        a = await repository.db.obras.where().findAll();
+        result.sort(
+            (a, b) => a.lote.value!.nombre.compareTo(b.lote.value!.nombre));
         break;
       case ObraSortType.propietario:
-        a = await repository.db.obras.where().findAll();
+        result.sort((a, b) =>
+            a.lote.value!.propietario!.compareTo(b.lote.value!.propietario!));
         break;
     }
-    yield a;
+    return result;
   }
 }

@@ -1,11 +1,10 @@
-import 'package:flash/model/database_provider.dart';
+import 'package:flash/model/database.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-final obraRepository = Provider<ObraRepository>((ref) {
-  return ObraRepository(ref.read(databaseProvider));
-});
+final obraRepository = Provider<ObraRepository>(
+    (ref) => ObraRepository(ref.watch(databaseProvider)));
 
 class ObraRepository {
   late final Isar db;
@@ -27,4 +26,7 @@ class ObraRepository {
   Future<Obra?> get(int id) {
     return db.obras.get(id);
   }
+
+  Stream<void> get changeNotifierStream =>
+      db.obras.watchLazy(fireImmediately: true);
 }

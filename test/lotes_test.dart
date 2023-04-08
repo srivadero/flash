@@ -1,5 +1,5 @@
 import 'package:flash/lote/repository.dart';
-import 'package:flash/model/database_provider.dart';
+import 'package:flash/model/database.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flash/obra/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
