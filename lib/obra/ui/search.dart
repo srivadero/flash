@@ -1,8 +1,7 @@
 import 'package:flash/model/entities.dart';
-import 'package:flash/obra/repository.dart';
+import 'package:flash/obra/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 
 class ObraSearchPage extends SearchDelegate<Obra?> {
   ObraSearchPage() : super(searchFieldLabel: 'Buscar');
@@ -38,25 +37,33 @@ class ObraSearchPage extends SearchDelegate<Obra?> {
     if (query.isEmpty) return Container();
     return Consumer(
       builder: (context, ref, child) {
-        final obras = ref.watch(obraRepository).db.obras.filter().lote((q) {
-          return q
-              .propietarioContains(query, caseSensitive: false)
-              .or()
-              .nombreContains(query, caseSensitive: false);
-        }).findAllSync();
-        return ListView.builder(
-            itemCount: obras.length,
-            itemBuilder: (context, index) {
-              final obra = obras[index];
-              return ListTile(
-                title: Text(
-                    '${obra.lote.value?.nombre} ${obra.lote.value?.propietario ?? ''}'),
-                onTap: () {
-                  close(context, obra);
-                },
-              );
-            });
+        return ref
+            .watch(
+              _searchProvider(query),
+            )
+            .when(
+              data: (obras) {
+                return ListView.builder(
+                    itemCount: obras.length,
+                    itemBuilder: (context, index) {
+                      final obra = obras[index];
+                      return ListTile(
+                        title: Text(
+                            '${obra.lote.value!.propietario} ${obra.lote.value!.nombre}'),
+                        onTap: () {
+                          close(context, obra);
+                        },
+                      );
+                    });
+              },
+              error: (error, stackTrace) =>
+                  Center(child: Text(error.toString())),
+              loading: () => const Center(child: CircularProgressIndicator()),
+            );
       },
     );
   }
+
+  final _searchProvider = FutureProvider.autoDispose.family<List<Obra>, String>(
+      (ref, query) => ref.watch(obraController).getObras(query: query));
 }

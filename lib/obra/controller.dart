@@ -12,9 +12,13 @@ final obraSortTypeProvider = StateProvider<ObraSortType>(
   (ref) => ObraSortType.lote,
 );
 
-final obrasProvider = StreamProvider<List<Obra>>((ref) {
+final astream =
+    StreamProvider<void>((ref) => ref.watch(obraController).getDataStream);
+
+final obrasProvider = StreamProvider<List<Obra>>((ref) async* {
+  ref.watch(astream);
   final order = ref.watch(obraSortTypeProvider);
-  return ref.read(obraController).getData(sortBy: order /*strQuery, kOrder*/);
+  yield await ref.read(obraController).getObras(orderBy: order, query: '');
 });
 
 final obraController =
@@ -36,34 +40,32 @@ class ObraController {
     return repository.get(id);
   }
 
-  Stream<List<Obra>> getData({ObraSortType sortBy = ObraSortType.lote}) async* {
-    await for (final _ in repository.changeNotifierStream) {
-      switch (sortBy) {
-        case ObraSortType.propietario:
-          yield await getByPropietario();
-          break;
-        case ObraSortType.lote:
-          yield await getByLote();
-          break;
-      }
+  Stream<void> get getDataStream {
+    return repository.changeNotifierStream;
+    // await for (final _ in repository.changeNotifierStream) {
+    //   yield null;
+    // }
+  }
+
+  Future<List<Obra>> getObras(
+      {ObraSortType orderBy = ObraSortType.lote, String query = ''}) async {
+    final result = await repository.db.obras.filter().lote((q) {
+      return q
+          .nombreContains(query, caseSensitive: false)
+          .or()
+          .propietarioContains(query, caseSensitive: false);
+    }).findAll();
+
+    switch (orderBy) {
+      case ObraSortType.lote:
+        result.sort(
+            (a, b) => a.lote.value!.nombre.compareTo(b.lote.value!.nombre));
+        break;
+      case ObraSortType.propietario:
+        result.sort((a, b) =>
+            a.lote.value!.propietario!.compareTo(b.lote.value!.propietario!));
+        break;
     }
-  }
-
-  Future<List<Obra>> getByPropietario() async {
-    return repository.db.obras
-        .where()
-        // TODO .sortByPropietario()
-        // .filter()
-        // .lote((q){
-        //   return q.propietarioContains('').or().nombreContains('');
-        // })
-        .findAll();
-  }
-
-  Future<List<Obra>> getByLote() async {
-    return repository.db.obras
-        .where()
-        // TODO .sortByNombre()
-        .findAll();
+    return result;
   }
 }

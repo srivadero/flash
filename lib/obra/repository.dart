@@ -3,9 +3,8 @@ import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-final obraRepository = Provider<ObraRepository>((ref) {
-  return ObraRepository(ref.watch(databaseProvider));
-});
+final obraRepository = Provider<ObraRepository>(
+    (ref) => ObraRepository(ref.watch(databaseProvider)));
 
 class ObraRepository {
   late final Isar db;
@@ -28,11 +27,6 @@ class ObraRepository {
     return db.obras.get(id);
   }
 
-  Stream<void> get changeNotifierStream async* {
-    final dbstream = db.obras.watchLazy(fireImmediately: true);
-    yield* dbstream.asBroadcastStream();
-    // await for (final _ in dbstream) {
-    //   yield null;
-    // }
-  }
+  Stream<void> get changeNotifierStream =>
+      db.obras.watchLazy(fireImmediately: true);
 }

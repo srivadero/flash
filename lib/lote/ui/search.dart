@@ -1,8 +1,7 @@
-import 'package:flash/lote/repository.dart';
+import 'package:flash/lote/controller.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
 
 class LoteSearchPage extends SearchDelegate<Lote?> {
   LoteSearchPage() : super(searchFieldLabel: 'Buscar');
@@ -38,27 +37,32 @@ class LoteSearchPage extends SearchDelegate<Lote?> {
     if (query.isEmpty) return Container();
     return Consumer(
       builder: (context, ref, child) {
-        final lotes = ref
-            .watch(loteRepository)
-            .db
-            .lotes
-            .filter()
-            .nombreContains(query, caseSensitive: false)
-            .or()
-            .propietarioContains(query, caseSensitive: false)
-            .findAllSync();
-        return ListView.builder(
-            itemCount: lotes.length,
-            itemBuilder: (context, index) {
-              final lote = lotes[index];
-              return ListTile(
-                title: Text('${lote.nombre} ${lote.propietario}'),
-                onTap: () {
-                  close(context, lote);
-                },
-              );
-            });
+        return ref
+            .watch(
+              _searchProvider(query),
+            )
+            .when(
+              data: (lotes) {
+                return ListView.builder(
+                    itemCount: lotes.length,
+                    itemBuilder: (context, index) {
+                      final lote = lotes[index];
+                      return ListTile(
+                        title: Text('${lote.nombre} ${lote.propietario}'),
+                        onTap: () {
+                          close(context, lote);
+                        },
+                      );
+                    });
+              },
+              error: (error, stackTrace) =>
+                  Center(child: Text(error.toString())),
+              loading: () => const Center(child: CircularProgressIndicator()),
+            );
       },
     );
   }
+
+  final _searchProvider = FutureProvider.autoDispose.family<List<Lote>, String>(
+      (ref, query) => ref.watch(loteController).getLotes(query: query));
 }
