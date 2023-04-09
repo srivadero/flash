@@ -1,10 +1,12 @@
 import 'dart:io';
-import 'package:flash/model/entities.dart';
+
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'entities.dart';
 
 final databaseProvider = Provider<Isar>((ref) => throw UnimplementedError());
 

@@ -1,10 +1,11 @@
-import 'package:flash/model/entities.dart';
-import 'package:flash/obra/controller.dart';
-import 'package:flash/obra/ui/detail.dart';
-import 'package:flash/obra/ui/form.dart';
-import 'package:flash/obra/ui/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../model/entities.dart';
+import '../controller.dart';
+import 'detail.dart';
+import 'form.dart';
+import 'search.dart';
 
 class ObraListPage extends ConsumerStatefulWidget {
   const ObraListPage({super.key});

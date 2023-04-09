@@ -1,7 +1,8 @@
-import 'package:flash/home.dart';
-import 'package:flash/model/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'home.dart';
+import 'model/database.dart';
 
 Future<void> main() async {
   final isar = await IsarDatabase.init(directory: 'Databases');

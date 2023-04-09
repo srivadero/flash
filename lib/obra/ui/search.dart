@@ -1,7 +1,8 @@
-import 'package:flash/model/entities.dart';
-import 'package:flash/obra/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../model/entities.dart';
+import '../controller.dart';
 
 class ObraSearchPage extends SearchDelegate<Obra?> {
   ObraSearchPage() : super(searchFieldLabel: 'Buscar');

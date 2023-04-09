@@ -1,6 +1,7 @@
-import 'package:flash/lote/ui/list.dart';
-import 'package:flash/obra/ui/list.dart';
 import 'package:flutter/material.dart';
+
+import 'lote/ui/list.dart';
+import 'obra/ui/list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

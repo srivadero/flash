@@ -1,13 +1,15 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flash/lote/controller.dart';
-import 'package:flash/model/entities.dart';
-import 'package:flash/obra/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../lote/controller.dart';
+import '../../model/entities.dart';
+import '../controller.dart';
+
 class ObraFormPage extends ConsumerStatefulWidget {
-  final Obra obra;
   const ObraFormPage({required this.obra, super.key});
+
+  final Obra obra;
 
   @override
   ConsumerState<ObraFormPage> createState() => _ObraFormPageState();
@@ -42,6 +44,8 @@ class _ObraFormPageState extends ConsumerState<ObraFormPage> {
         key: _formKey,
         child: Column(
           children: [
+            // TODO Usar loteController.getLotes en lugar de lotesProvider para sacar dependencia
+            // Ver forma deimpkementar como en lote/search usando un provider
             ref.watch(lotesProvider).when(
                 data: (List<Lote> data) {
                   return Column(
