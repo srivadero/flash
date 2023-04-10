@@ -1,12 +1,14 @@
-import 'package:flash/lote/controller.dart';
-import 'package:flash/lote/ui/form.dart';
-import 'package:flash/model/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../model/entities.dart';
+import '../controller.dart';
+import 'form.dart';
+
 class LoteDetailPage extends ConsumerStatefulWidget {
-  final Lote lote;
   const LoteDetailPage({required this.lote, super.key});
+
+  final Lote lote;
 
   @override
   ConsumerState<LoteDetailPage> createState() => _LoteDetailPageState();

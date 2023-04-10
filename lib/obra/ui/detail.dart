@@ -1,12 +1,14 @@
-import 'package:flash/model/entities.dart';
-import 'package:flash/obra/controller.dart';
-import 'package:flash/obra/ui/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../model/entities.dart';
+import '../controller.dart';
+import 'form.dart';
+
 class ObraDetailPage extends ConsumerStatefulWidget {
-  final Obra obra;
   const ObraDetailPage({required this.obra, super.key});
+
+  final Obra obra;
 
   @override
   ConsumerState<ObraDetailPage> createState() => _ObraDetailPageState();

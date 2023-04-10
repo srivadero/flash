@@ -1,7 +1,8 @@
-import 'package:flash/lote/repository.dart';
-import 'package:flash/model/entities.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
+
+import '../model/entities.dart';
+import 'repository.dart';
 
 enum LoteSortType {
   nombre,
@@ -11,11 +12,11 @@ enum LoteSortType {
 final loteSortTypeProvider =
     StateProvider<LoteSortType>((ref) => LoteSortType.nombre);
 
-final astream =
+final lotesStream =
     StreamProvider<void>((ref) => ref.watch(loteController).getDataStream);
 
 final lotesProvider = StreamProvider<List<Lote>>((ref) async* {
-  ref.watch(astream);
+  ref.watch(lotesStream);
   final order = ref.watch(loteSortTypeProvider);
   yield await ref.read(loteController).getLotes(orderBy: order, query: '');
 });
@@ -24,8 +25,9 @@ final loteController = Provider<LoteController>(
     (ref) => LoteController(ref.watch(loteRepository)));
 
 class LoteController {
-  LoteRepository repository;
-  LoteController(this.repository);
+  const LoteController(this.repository);
+
+  final LoteRepository repository;
 
   Future<int> save(Lote p) async {
     return repository.save(p);

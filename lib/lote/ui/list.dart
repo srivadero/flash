@@ -1,10 +1,11 @@
-import 'package:flash/lote/controller.dart';
-import 'package:flash/lote/ui/detail.dart';
-import 'package:flash/lote/ui/form.dart';
-import 'package:flash/lote/ui/search.dart';
 import 'package:flash/model/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../controller.dart';
+import 'detail.dart';
+import 'form.dart';
+import 'search.dart';
 
 class LoteListPage extends ConsumerStatefulWidget {
   const LoteListPage({super.key});

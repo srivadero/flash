@@ -1,7 +1,8 @@
-import 'package:flash/model/entities.dart';
-import 'package:flash/obra/repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
+
+import '../model/entities.dart';
+import 'repository.dart';
 
 enum ObraSortType {
   lote,
@@ -12,11 +13,11 @@ final obraSortTypeProvider = StateProvider<ObraSortType>(
   (ref) => ObraSortType.lote,
 );
 
-final astream =
+final obrasStream =
     StreamProvider<void>((ref) => ref.watch(obraController).getDataStream);
 
 final obrasProvider = StreamProvider<List<Obra>>((ref) async* {
-  ref.watch(astream);
+  ref.watch(obrasStream);
   final order = ref.watch(obraSortTypeProvider);
   yield await ref.read(obraController).getObras(orderBy: order, query: '');
 });
@@ -25,8 +26,9 @@ final obraController =
     Provider<ObraController>((ref) => ObraController(ref.read(obraRepository)));
 
 class ObraController {
-  ObraRepository repository;
-  ObraController(this.repository);
+  const ObraController(this.repository);
+
+  final ObraRepository repository;
 
   Future<int> save(Obra p) async {
     return repository.save(p);
@@ -42,9 +44,6 @@ class ObraController {
 
   Stream<void> get getDataStream {
     return repository.changeNotifierStream;
-    // await for (final _ in repository.changeNotifierStream) {
-    //   yield null;
-    // }
   }
 
   Future<List<Obra>> getObras(

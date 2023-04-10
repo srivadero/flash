@@ -1,7 +1,8 @@
-import 'package:flash/lote/controller.dart';
-import 'package:flash/model/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../model/entities.dart';
+import '../controller.dart';
 
 class LoteSearchPage extends SearchDelegate<Lote?> {
   LoteSearchPage() : super(searchFieldLabel: 'Buscar');
@@ -37,11 +38,7 @@ class LoteSearchPage extends SearchDelegate<Lote?> {
     if (query.isEmpty) return Container();
     return Consumer(
       builder: (context, ref, child) {
-        return ref
-            .watch(
-              _searchProvider(query),
-            )
-            .when(
+        return ref.watch(_searchProvider(query)).when(
               data: (lotes) {
                 return ListView.builder(
                     itemCount: lotes.length,
