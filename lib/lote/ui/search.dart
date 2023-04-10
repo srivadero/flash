@@ -38,11 +38,7 @@ class LoteSearchPage extends SearchDelegate<Lote?> {
     if (query.isEmpty) return Container();
     return Consumer(
       builder: (context, ref, child) {
-        return ref
-            .watch(
-              _searchProvider(query),
-            )
-            .when(
+        return ref.watch(_searchProvider(query)).when(
               data: (lotes) {
                 return ListView.builder(
                     itemCount: lotes.length,

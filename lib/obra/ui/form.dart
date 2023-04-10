@@ -37,6 +37,9 @@ class _ObraFormPageState extends ConsumerState<ObraFormPage> {
     );
   }
 
+  final _searchProvider = FutureProvider.autoDispose.family<List<Lote>, String>(
+      (ref, query) => ref.watch(loteController).getLotes(query: query));
+
   Widget _form(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -44,30 +47,11 @@ class _ObraFormPageState extends ConsumerState<ObraFormPage> {
         key: _formKey,
         child: Column(
           children: [
-            // TODO Usar loteController.getLotes en lugar de lotesProvider para sacar dependencia
-            // Ver forma deimpkementar como en lote/search usando un provider
-            ref.watch(lotesProvider).when(
+            ref.watch(_searchProvider('')).when(
                 data: (List<Lote> data) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      // TextButton(
-                      //   autofocus: true,
-                      //   onPressed: () async {
-                      //     final result = await Navigator.of(context)
-                      //         .push<Lote?>(MaterialPageRoute(
-                      //             builder: (_) =>
-                      //                 LoteFormPage(lote: Lote())));
-                      //     if (result != null) {
-                      //       setState(() {
-                      //         obra.lote.value = result;
-                      //         ref.invalidate(lotesProvider);
-                      //       });
-                      //     }
-                      //   },
-                      //   child: const Text('Agregar lote'),
-                      // ),
-                      const SizedBox(height: 10),
                       DropdownSearch<Lote>(
                         popupProps: const PopupProps.menu(
                             showSearchBox: true,
@@ -150,7 +134,7 @@ class _ObraFormPageState extends ConsumerState<ObraFormPage> {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   ref.read(obraController).save(obra);
-                  // TODO Actualizar lista lotes (no actualiza obras)
+                  ref.read(loteController).save(obra.lote.value!);
                   Navigator.of(context).pop(obra);
                 }
               },
