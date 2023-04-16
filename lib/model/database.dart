@@ -13,18 +13,20 @@ final databaseProvider = Provider<Isar>((ref) => throw UnimplementedError());
 class IsarDatabase {
   IsarDatabase._init();
 
-  static Future<Isar> init({required String directory}) async {
+  static Future<Isar> init(
+      {required String directory, String name = Isar.defaultName}) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     final o = IsarDatabase._init();
-    return o._getDatabaseProvider(directory: directory);
+    return o._getDatabaseProvider(directory: directory, name: name);
   }
 
-  Future<Isar> _getDatabaseProvider({directory}) async {
+  Future<Isar> _getDatabaseProvider(
+      {required String directory, required String name}) async {
     final dirName = await _getDatabaseDirectory(directory);
     return await Isar.open(
       [ObraSchema, LoteSchema],
-      name: 'flash',
+      name: name,
       directory: dirName,
     );
   }

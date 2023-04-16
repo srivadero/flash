@@ -5,12 +5,27 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flash/lote/ui/list.dart';
+import 'package:flash/model/database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flash/main.dart';
 
 void main() {
+  testWidgets('Test lotes list page', (WidgetTester tester) async {
+    final isar =
+        await IsarDatabase.init(directory: 'Databases', name: 'test.db');
+
+    await tester.pumpWidget(ProviderScope(overrides: [
+      databaseProvider.overrideWithValue(isar),
+    ], child: const MyApp()));
+
+    expect(find.text('0'), findsOneWidget);
+    await tester.pump();
+  });
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
