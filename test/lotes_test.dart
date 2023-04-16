@@ -7,8 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar/isar.dart';
 
 Future<void> main() async {
+  final isar = await IsarDatabase.init(directory: 'Databases', name: 'test.db');
+
   test('Can add, get and remove a Lote', () async {
-    final isar = await Isar.open([LoteSchema, ObraSchema], name: 'test-db');
+    // final isar =
+    //     await IsarDatabase.init(directory: 'Databases', name: 'test.db');
 
     final container = ProviderContainer(
       overrides: [databaseProvider.overrideWithValue(isar)],
@@ -38,7 +41,8 @@ Future<void> main() async {
   });
 
   test('Can add, get and remove an Obra', () async {
-    final isar = await Isar.open([LoteSchema, ObraSchema], name: 'test-db');
+    // final isar =
+    //     await IsarDatabase.init(directory: 'Databases', name: 'test.db');
 
     final container = ProviderContainer(
       overrides: [databaseProvider.overrideWithValue(isar)],
@@ -68,7 +72,8 @@ Future<void> main() async {
   });
 
   test('Can add, get and remove a lote with obras', () async {
-    final isar = await Isar.open([LoteSchema, ObraSchema], name: 'test-db');
+    // final isar =
+    //     await IsarDatabase.init(directory: 'Databases', name: 'test.db');
 
     final container = ProviderContainer(
       overrides: [databaseProvider.overrideWithValue(isar)],

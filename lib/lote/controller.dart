@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 
 import '../model/entities.dart';
 import 'repository.dart';
@@ -47,12 +47,13 @@ class LoteController {
 
   Future<List<Lote>> getLotes(
       {LoteSortType orderBy = LoteSortType.nombre, String query = ''}) async {
-    final result = await repository.db.lotes
-        .filter()
-        .nombreContains(query, caseSensitive: false)
-        .or()
-        .propietarioContains(query, caseSensitive: false)
-        .findAll();
+    final result = await repository.getLotes(containingText: query);
+    // final result = await repository.db.lotes
+    //     .filter()
+    //     .nombreContains(query, caseSensitive: false)
+    //     .or()
+    //     .propietarioContains(query, caseSensitive: false)
+    //     .findAll();
 
     switch (orderBy) {
       case LoteSortType.nombre:

@@ -5,7 +5,8 @@ import 'home.dart';
 import 'model/database.dart';
 
 Future<void> main() async {
-  final isar = await IsarDatabase.init(directory: 'Databases');
+  final isar =
+      await IsarDatabase.init(directory: 'Databases', name: 'flash.db');
 
   runApp(ProviderScope(
     overrides: [
