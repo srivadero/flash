@@ -37,3 +37,9 @@ enum AvanceObra {
   final Color color;
   final String info;
 }
+
+@collection
+class Item {
+  Id? id;
+  String? value;
+}

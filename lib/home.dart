@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'item/ui/list.dart';
 import 'lote/ui/list.dart';
 import 'obra/ui/list.dart';
 
@@ -28,15 +29,16 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: const Icon(Icons.sunny),
         label: 'Obras',
         page: const ObraListPage()),
-    View(
-        icon: const Icon(Icons.settings),
-        label: 'Preferencias',
-        page: Scaffold(
-          appBar: AppBar(
-            title: const Text('Preferencias'),
-          ),
-          body: const Center(child: Text('No implementado')),
-        )),
+    View(icon: const Icon(Icons.stop), label: 'Items', page: const ListPage()),
+    // View(
+    //     icon: const Icon(Icons.settings),
+    //     label: 'Preferencias',
+    //     page: Scaffold(
+    //       appBar: AppBar(
+    //         title: const Text('Preferencias'),
+    //       ),
+    //       body: const Center(child: Text('No implementado')),
+    //     )),
   ];
 
   @override

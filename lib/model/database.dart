@@ -25,9 +25,9 @@ class IsarDatabase {
       {required String directory, required String name}) async {
     final dirName = await _getDatabaseDirectory(directory);
     return await Isar.open(
-      [ObraSchema, LoteSchema],
+      [ObraSchema, LoteSchema, ItemSchema],
       name: name,
-      directory: dirName,
+      directory: dirName ?? '.',
     );
   }
 

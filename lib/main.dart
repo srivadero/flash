@@ -31,3 +31,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// TODO Implement module lote using STRUCTURE AS items
+// TODO Remove module items and database schema
